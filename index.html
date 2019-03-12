@@ -13,13 +13,15 @@
   <div id="app">
     <mt-radio title="选择接口" v-model="selectedAPI" :options="apis"></mt-radio>
     <div v-for="(param, index) in params" :key="index" class="param-block">
-        <mt-field class="param-key" placeholder="key" type="text" v-model="param.key"></mt-field>
-        <mt-field class="param-value" placeholder="value" type="text" v-model="param.value"></mt-field>
-        <div class="param-del" @click="deleteParam(index)">-</div>
+      <mt-field class="param-key" placeholder="key" type="text" v-model="param.key"></mt-field>
+      <mt-field class="param-value" :placeholder="param.hint" type="text" v-model="param.value"></mt-field>
+      <div class="param-del" @click="deleteParam(index)">-</div>
     </div>
     <mt-button size="large" type="default" @click.native="addParam">增加参数</mt-button>
     <mt-field label="拼接结果" placeholder="拼接结果" type="textarea" rows="4" :value="urlString" readonly></mt-field>
-    <mt-button size="large" type="primary" v-clipboard:copy="urlString" v-clipboard:success="onCopy" v-clipboard:error="onError">复制URL</mt-button>
+    <mt-button size="large" type="primary" v-clipboard:copy="urlString" v-clipboard:success="onCopy"
+      v-clipboard:error="onError">复制URL</mt-button>
+    <mt-cell title="支持作者" to="https://qr.alipay.com/FKX09054QNRTGGKQZJN6E6" is-link value="支付宝"></mt-cell>
   </div>
   <script src="./vue.js"></script>
   <script src="https://unpkg.com/mint-ui/lib/index.js"></script>
@@ -33,9 +35,77 @@
         apis: ['/ssrEmoji', '/v2rayN2quan', '/v2rayn2clash', '/surge2sssub', '/surge2sswin', '/surge2clash', '/clashModify'],
         params: [{
           key: 'url',
-          value: 'https://www.google.com'
+          hint: '订阅地址'
         }],
         urlState: ''
+      },
+      watch: {
+        selectedAPI(newVal, _) {
+          let params = []
+          switch (newVal) {
+            case '/ssrEmoji':
+              params = [{
+                key: 'url',
+                hint: '订阅地址'
+              }]
+              break;
+            case '/v2rayN2quan':
+              params = [{
+                key: 'url',
+                hint: 'V2RayN格式订阅地址（V2）'
+              }, {
+                key: 'group',
+                hint: '可选，组名，默认Fndroid'
+              },{
+                key: 'method',
+                hint: '可选，加密方式，默认chacha20-ietf-poly1305'
+              }]
+              break;
+            case '/v2rayn2clash':
+              params = [{
+                key: 'url',
+                hint: 'V2RayN格式订阅地址（V2）'
+              }]
+              break;
+            case '/surge2sssub':
+              params = [{
+                key: 'url',
+                hint: 'Surge托管地址'
+              }, {
+                key: 'group',
+                hint: '可选，Quantumult中的组名'
+              }]
+              break;
+            case '/surge2sswin':
+              params = [{
+                key: 'url',
+                hint: 'Surge托管地址'
+              }]
+              break;
+            case '/surge2clash':
+              params = [{
+                key: 'url',
+                hint: 'Surge托管地址'
+              }, {
+                key: 'ads',
+                hint: '可选，0表示过滤所有REJECT规则'
+              }, {
+                key: 'snippet',
+                hint: '可选，使用片段替代生成后的字段地址'
+              }]
+              break;
+            case '/clashModify':
+            params = [{
+                key: 'url',
+                hint: 'Clash托管地址'
+              }, {
+                key: 'snippet',
+                hint: '可选，使用片段替代生成后的字段地址'
+              }]
+              break;
+          }
+          this.params = params
+        }
       },
       computed: {
         urlString() {
@@ -51,7 +121,8 @@
         addParam() {
           this.params.push({
             key: '',
-            value: ''
+            value: '',
+            hint: 'value'
           })
         },
         deleteParam(idx) {
@@ -73,28 +144,28 @@
 </body>
 
 <style scoped>
-.param-block {
-  display: flex;
-  align-items: center;
-}
+  .param-block {
+    display: flex;
+    align-items: center;
+  }
 
-.param-key {
-  flex: 3;
-}
+  .param-key {
+    flex: 3;
+  }
 
-.param-value {
-  flex: 6;
-}
+  .param-value {
+    flex: 6;
+  }
 
-.param-del {
-  color: white;
-  width: 20px;
-  text-align: center;
-  line-height: 18px;
-  height: 20px;
-  background-color: rgb(233, 36, 36);
-  border-radius: 15px;
-}
+  .param-del {
+    color: white;
+    width: 20px;
+    text-align: center;
+    line-height: 18px;
+    height: 20px;
+    background-color: rgb(233, 36, 36);
+    border-radius: 15px;
+  }
 </style>
 
 </html>
