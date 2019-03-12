@@ -15,11 +15,11 @@
     <div v-for="(param, index) in params" :key="index" class="param-block">
         <mt-field class="param-key" placeholder="key" type="text" v-model="param.key"></mt-field>
         <mt-field class="param-value" placeholder="value" type="text" v-model="param.value"></mt-field>
-        <div class="param-del">-</div>
+        <div class="param-del" @click="deleteParam(index)">-</div>
     </div>
-    <mt-button type="default" @click.native="addParam">增加参数</mt-button>
-    <mt-field label="拼接结果" placeholder="拼接结果" type="textarea" rows="6" :value="urlString" readonly></mt-field>
-    <mt-button type="primary" v-clipboard:copy="urlString" v-clipboard:success="onCopy" v-clipboard:error="onError">复制URL</mt-button>
+    <mt-button size="large" type="default" @click.native="addParam">增加参数</mt-button>
+    <mt-field label="拼接结果" placeholder="拼接结果" type="textarea" rows="4" :value="urlString" readonly></mt-field>
+    <mt-button size="large" type="primary" v-clipboard:copy="urlString" v-clipboard:success="onCopy" v-clipboard:error="onError">复制URL</mt-button>
   </div>
   <script src="./vue.js"></script>
   <script src="https://unpkg.com/mint-ui/lib/index.js"></script>
@@ -54,6 +54,9 @@
             value: ''
           })
         },
+        deleteParam(idx) {
+          this.params.splice(idx, 1)
+        },
         changeAPI(picker, values) {
           this.selectedApi = values[0]
         },
@@ -80,14 +83,14 @@
 }
 
 .param-value {
-  flex: 9;
+  flex: 6;
 }
 
 .param-del {
   color: white;
   width: 20px;
   text-align: center;
-  line-height: 20px;
+  line-height: 18px;
   height: 20px;
   background-color: rgb(233, 36, 36);
   border-radius: 15px;
