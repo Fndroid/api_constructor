@@ -19,9 +19,9 @@
     </div>
     <mt-button size="large" type="default" @click.native="addParam">增加参数</mt-button>
     <mt-field label="拼接结果" placeholder="拼接结果" type="textarea" rows="4" :value="urlString" readonly></mt-field>
+    <mt-cell title="支持作者" to="https://qr.alipay.com/FKX09054QNRTGGKQZJN6E6" is-link value="支付宝"></mt-cell>
     <mt-button size="large" type="primary" v-clipboard:copy="urlString" v-clipboard:success="onCopy"
       v-clipboard:error="onError">复制URL</mt-button>
-    <mt-cell title="支持作者" to="https://qr.alipay.com/FKX09054QNRTGGKQZJN6E6" is-link value="支付宝"></mt-cell>
   </div>
   <script src="./vue.js"></script>
   <script src="https://unpkg.com/mint-ui/lib/index.js"></script>
