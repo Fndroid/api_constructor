@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
+  <title>API拼接</title>
+</head>
+
+<body>
+  <div id="app">
+    <mt-picker :slots="apis" @change="changeAPI"></mt-picker>
+    <div v-for="(param, index) in params" :key="index">
+        <mt-field label="参数键" placeholder="key" type="text" v-model="param.key"></mt-field>
+        <mt-field label="参数值" placeholder="value" type="text" v-model="param.value"></mt-field>
+    </div>
+    <mt-button type="default" @click.native="addParam">增加参数</mt-button>
+    <mt-field label="拼接结果" placeholder="拼接结果" type="textarea" rows="6" :value="urlString" readonly></mt-field>
+    <mt-button type="primary" v-clipboard:copy="urlString" v-clipboard:success="onCopy" v-clipboard:error="onError">复制URL</mt-button>
+  </div>
+  <script src="./vue.js"></script>
+  <script src="https://unpkg.com/mint-ui/lib/index.js"></script>
+  <script src="./vue-clipboard.min.js"></script>
+  <script>
+
+    var vm = new Vue({
+      el: "#app",
+      data: {
+        selectedApi: '/ssrEmoji',
+        apis: [{
+          values: ['/ssrEmoji', '/v2rayN2quan', '/v2rayn2clash', '/surge2sssub', '/surge2sswin', '/surge2clash', '/clashModify']
+        }],
+        params: [{
+          key: 'url',
+          value: 'https://www.google.com'
+        }],
+        urlState: ''
+      },
+      computed: {
+        urlString() {
+          let paramStr = this.params.filter(i => {
+            return i.value && i.key
+          }).map(i => {
+            return i.key + '=' + encodeURIComponent(i.value)
+          }).join('&')
+          return `https://tgbot.lbyczf.com${this.selectedApi}?${paramStr}`
+        }
+      },
+      methods: {
+        addParam() {
+          this.params.push({
+            key: '',
+            value: ''
+          })
+        },
+        changeAPI(picker, values) {
+          this.selectedApi = values[0]
+        },
+        onCopy(e) {
+          window.alert('复制成功')
+        },
+        onError(e) {
+          window.alert('复制失败')
+        }
+      },
+    })
+
+  </script>
+</body>
+
+</html>
