@@ -11,10 +11,11 @@
 
 <body>
   <div id="app">
-    <mt-picker :slots="apis" @change="changeAPI"></mt-picker>
-    <div v-for="(param, index) in params" :key="index">
-        <mt-field label="参数键" placeholder="key" type="text" v-model="param.key"></mt-field>
-        <mt-field label="参数值" placeholder="value" type="text" v-model="param.value"></mt-field>
+    <mt-radio title="选择接口" v-model="selectedAPI" :options="apis"></mt-radio>
+    <div v-for="(param, index) in params" :key="index" class="param-block">
+        <mt-field class="param-key" placeholder="key" type="text" v-model="param.key"></mt-field>
+        <mt-field class="param-value" placeholder="value" type="text" v-model="param.value"></mt-field>
+        <div class="param-del">-</div>
     </div>
     <mt-button type="default" @click.native="addParam">增加参数</mt-button>
     <mt-field label="拼接结果" placeholder="拼接结果" type="textarea" rows="6" :value="urlString" readonly></mt-field>
@@ -28,10 +29,8 @@
     var vm = new Vue({
       el: "#app",
       data: {
-        selectedApi: '/ssrEmoji',
-        apis: [{
-          values: ['/ssrEmoji', '/v2rayN2quan', '/v2rayn2clash', '/surge2sssub', '/surge2sswin', '/surge2clash', '/clashModify']
-        }],
+        selectedAPI: '/ssrEmoji',
+        apis: ['/ssrEmoji', '/v2rayN2quan', '/v2rayn2clash', '/surge2sssub', '/surge2sswin', '/surge2clash', '/clashModify'],
         params: [{
           key: 'url',
           value: 'https://www.google.com'
@@ -45,7 +44,7 @@
           }).map(i => {
             return i.key + '=' + encodeURIComponent(i.value)
           }).join('&')
-          return `https://tgbot.lbyczf.com${this.selectedApi}?${paramStr}`
+          return `https://tgbot.lbyczf.com${this.selectedAPI}?${paramStr}`
         }
       },
       methods: {
@@ -69,5 +68,30 @@
 
   </script>
 </body>
+
+<style scoped>
+.param-block {
+  display: flex;
+  align-items: center;
+}
+
+.param-key {
+  flex: 3;
+}
+
+.param-value {
+  flex: 9;
+}
+
+.param-del {
+  color: white;
+  width: 20px;
+  text-align: center;
+  line-height: 20px;
+  height: 20px;
+  background-color: rgb(233, 36, 36);
+  border-radius: 15px;
+}
+</style>
 
 </html>
