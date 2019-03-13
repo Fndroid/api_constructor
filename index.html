@@ -11,15 +11,20 @@
 
 <body>
   <div id="app">
-    <mt-radio class="api-picker" title="选择接口" v-model="selectedAPI" :options="apis" align="right"></mt-radio>
+    <mt-header title="API在线拼接" fixed>
+    </mt-header>
+    <mt-cell class="notice-block" title="接口说明" to="https://github.com/Fndroid/jsbox_script/wiki/%E5%BC%80%E6%94%BE%E6%8E%A5%E5%8F%A3%E4%BD%BF%E7%94%A8%E5%8F%8A%E8%AF%B4%E6%98%8E" is-link value="Github"></mt-cell>
+    <mt-radio class="api-picker" title="选择接口开始生成" v-model="selectedAPI" :options="apis" align="right"></mt-radio>
     <div v-for="(param, index) in params" :key="index" class="param-block">
       <mt-field class="param-key" placeholder="key" type="text" v-model="param.key"></mt-field>
       <mt-field class="param-value" :placeholder="param.hint" type="text" v-model="param.value"></mt-field>
       <div class="param-del" @click="deleteParam(index)">-</div>
     </div>
     <mt-button class="add-param-btn" size="large" type="default" @click.native="addParam">增加参数</mt-button>
-    <mt-field class="result-block" label="拼接结果" placeholder="拼接结果" type="textarea" rows="4" :value="urlString" readonly></mt-field>
-    <mt-cell class="support-block" title="支持作者" to="https://qr.alipay.com/FKX09054QNRTGGKQZJN6E6" is-link value="支付宝"></mt-cell>
+    <mt-field class="result-block" label="拼接结果" placeholder="拼接结果" type="textarea" rows="4" :value="urlString" readonly>
+    </mt-field>
+    <mt-cell class="support-block" title="支持作者" to="https://qr.alipay.com/FKX09054QNRTGGKQZJN6E6" is-link value="支付宝">
+    </mt-cell>
     <mt-button size="large" type="primary" v-clipboard:copy="urlString" v-clipboard:success="onCopy"
       v-clipboard:error="onError">复制URL</mt-button>
   </div>
@@ -56,7 +61,7 @@
               }, {
                 key: 'group',
                 hint: '可选，组名，默认Fndroid'
-              },{
+              }, {
                 key: 'method',
                 hint: '可选，加密方式，默认chacha20-ietf-poly1305'
               }]
@@ -95,7 +100,7 @@
               }]
               break;
             case '/clashModify':
-            params = [{
+              params = [{
                 key: 'url',
                 hint: 'Clash托管地址'
               }, {
@@ -144,13 +149,16 @@
 </body>
 
 <style scoped>
-
   body {
     background-color: rgb(233, 231, 231);
   }
 
+  .notice-block {
+    margin-top: 50px;
+  }
+
   .api-picker {
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   .param-block {
