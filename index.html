@@ -11,7 +11,7 @@
 
 <body>
   <div id="app">
-    <mt-radio class="api-picker" title="选择接口" v-model="selectedAPI" :options="apis"></mt-radio>
+    <mt-radio class="api-picker" title="选择接口" v-model="selectedAPI" :options="apis" align="right"></mt-radio>
     <div v-for="(param, index) in params" :key="index" class="param-block">
       <mt-field class="param-key" placeholder="key" type="text" v-model="param.key"></mt-field>
       <mt-field class="param-value" :placeholder="param.hint" type="text" v-model="param.value"></mt-field>
